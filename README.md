@@ -136,7 +136,7 @@ public sealed class ApiClientService
 #### **JwtAuthorizationFilter**
 - Validación automática de tokens JWT en cada request
 - Redirige a login si el token es inválido o ha expirado
-- Property injection con `[Dependency]` attribute
+- Validación local del JWT sin inyección de dependencias
 
 ```csharp
 [JwtAuthorizationFilter]
@@ -178,7 +178,7 @@ public static class UnityConfig
     private static void RegisterTypes(IUnityContainer container)
     {
         // Singleton - una instancia para toda la aplicación
-        container.RegisterType<ApiClientService>(new ContainerControlledLifetimeManager());
+        container.RegisterInstance(ApiClientService.Instance);
 
         // Transient - nueva instancia por request
         container.RegisterType<IAuthService, AuthService>();
@@ -247,11 +247,11 @@ La URL de la API se configura en `Web.config`:
 
 ```xml
 <appSettings>
-    <add key="ApiBaseUrl" value="http://localhost:5000/api"/>
+    <add key="ApiBaseUrl" value="http://localhost:5000/api/"/>
 </appSettings>
 ```
 
-Si el backend corre en otro puerto, actualiza esta configuración.
+La URL debe terminar con `/` para construir endpoints relativos correctamente. Si el backend corre en otro puerto, actualiza esta configuración.
 
 ## 🏃 Ejecución
 
@@ -338,14 +338,14 @@ public async Task<ActionResult> Login(LoginRequest model)
         var json = JsonConvert.SerializeObject(model);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync("/v1/auth/login", content);
+        var response = await httpClient.PostAsync("v1/auth/login", content);
         if (response.IsSuccessStatusCode)
         {
             var responseJson = await response.Content.ReadAsStringAsync();
             var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseJson);
             
             // Guardar token en sesión
-            Session["Token"] = loginResponse.Token;
+            Session["Token"] = loginResponse.AccessToken;
             Session["Username"] = model.Username;
 
             return RedirectToAction("Index", "Home");
@@ -375,7 +375,7 @@ public async Task<ActionResult> Index()
         httpClient.DefaultRequestHeaders.Authorization = 
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         
-        var response = await httpClient.GetAsync("/v1/autores");
+        var response = await httpClient.GetAsync("v1/autores");
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
@@ -414,7 +414,7 @@ public async Task<ActionResult> Create(Autor autor)
         var json = JsonConvert.SerializeObject(autor);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         
-        var response = await httpClient.PostAsync("/v1/autores", content);
+        var response = await httpClient.PostAsync("v1/autores", content);
         if (response.IsSuccessStatusCode)
         {
             TempData["Success"] = "Autor creado exitosamente";
@@ -444,7 +444,7 @@ public async Task<ActionResult> Edit(int id, Autor autor)
         var json = JsonConvert.SerializeObject(autor);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         
-        var response = await httpClient.PutAsync($"/api/v1/autores/{id}", content);
+        var response = await httpClient.PutAsync($"v1/autores/{id}", content);
         if (response.IsSuccessStatusCode)
         {
             TempData["Success"] = "Autor actualizado exitosamente";
@@ -466,7 +466,7 @@ public async Task<ActionResult> Delete(int id)
     {
         httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["ApiBaseUrl"]);
         
-        var response = await httpClient.DeleteAsync($"/api/v1/autores/{id}");
+        var response = await httpClient.DeleteAsync($"v1/autores/{id}");
         if (response.IsSuccessStatusCode)
         {
             TempData["Success"] = "Autor eliminado exitosamente";
@@ -485,7 +485,7 @@ public async Task<ActionResult> Delete(int id)
 ```csharp
 try
 {
-    var response = await httpClient.GetAsync("/api/v1/autores");
+    var response = await httpClient.GetAsync("v1/autores");
     response.EnsureSuccessStatusCode();
     
     var json = await response.Content.ReadAsStringAsync();

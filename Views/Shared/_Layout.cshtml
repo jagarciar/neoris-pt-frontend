@@ -21,13 +21,13 @@
                         <li>@Html.ActionLink("Autores", "Index", "Autores")</li>
                         <li>@Html.ActionLink("Libros", "Index", "Libros")</li>
                         <li>
-                            <span style="color: #fff; margin-right: 15px;">👤 @Session["Username"]</span>
+                            <span style="color: #fff; margin-right: 15px;">&#128100; @Session["Username"]</span>
                         </li>
-                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "Auth")</li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Auth")</li>
+                        <li>@Html.ActionLink("Login", "Login", "Auth")</li>
                     }
                 </ul>
             </div>
@@ -47,7 +47,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Neoris Application</p>
+            <p>&copy; @DateTime.Now.Year - Jeyson Garcia</p>
         </footer>
     </div>
 

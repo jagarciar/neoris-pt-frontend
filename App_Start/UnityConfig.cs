@@ -46,9 +46,9 @@ namespace NeorisFrontend
         /// <param name="container">Contenedor Unity</param>
         private static void RegisterTypes(IUnityContainer container)
         {
-            // Registrar ApiClientService como Singleton (una única instancia)
-            // Ya es singleton por diseño, pero registrarlo aquí para DI
-            container.RegisterType<ApiClientService>(new ContainerControlledLifetimeManager());
+            // Registrar ApiClientService usando la instancia singleton existente
+            // Esto evita conflictos con el patrón singleton implementado en la clase
+            container.RegisterInstance(ApiClientService.Instance);
 
             // Registrar los servicios con sus interfaces
             // TransientLifetimeManager = nueva instancia en cada resolución (por defecto)

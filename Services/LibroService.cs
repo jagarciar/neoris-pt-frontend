@@ -16,11 +16,11 @@ namespace NeorisFrontend.Services
     public class LibroService : ILibroService
     {
         private readonly ApiClientService _apiClient;
-        private const string ApiEndpoint = "/v1/libros";
+        private const string ApiEndpoint = "v1/libros";
 
-        public LibroService()
+        public LibroService(ApiClientService apiClient)
         {
-            _apiClient = ApiClientService.Instance;
+            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
         }
 
         public async Task<IEnumerable<Libro>> GetAllAsync(string token)

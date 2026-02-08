@@ -11,12 +11,25 @@ namespace NeorisFrontend.Infrastructure
     /// </summary>
     public class ApiClientService
     {
+        /// <summary>
+        /// Endpoint base de la API, configurable desde Web.config para flexibilidad entre entornos
+        /// </summary>
+        private readonly string _apiBaseUrl;
+        /// <summary>
+        /// Client HTTP reutilizable para realizar solicitudes a la API
+        /// </summary>
+        private readonly HttpClient _httpClient;
+
+        /// <summary>
+        /// Provee una instancia única de ApiClientService utilizando Lazy<T> para inicialización perezosa y thread-safe
+        /// </summary>
         private static readonly Lazy<ApiClientService> _instance = 
             new Lazy<ApiClientService>(() => new ApiClientService());
 
-        private readonly HttpClient _httpClient;
-        private readonly string _apiBaseUrl;
-
+        /// <summary>
+        /// Constructor privado para evitar instanciación externa y garantizar el uso del singleton
+        /// </summary>
+        /// <exception cref="ConfigurationErrorsException">Genera excepción si ApiBaseUrl no está configurada</exception>
         private ApiClientService()
         {
             _apiBaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"];
@@ -38,6 +51,9 @@ namespace NeorisFrontend.Infrastructure
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        /// <summary>
+        /// Obtiene la instancia singleton de ApiClientService para su uso en toda la aplicación
+        /// </summary>
         public static ApiClientService Instance => _instance.Value;
 
         /// <summary>

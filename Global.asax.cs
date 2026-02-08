@@ -20,5 +20,23 @@ namespace NeorisFrontend
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_Error()
+        {
+            var exception = Server.GetLastError();
+            
+            // Log del error para debugging
+            System.Diagnostics.Debug.WriteLine("===== APPLICATION ERROR =====");
+            System.Diagnostics.Debug.WriteLine($"Error: {exception?.Message}");
+            System.Diagnostics.Debug.WriteLine($"StackTrace: {exception?.StackTrace}");
+            
+            if (exception?.InnerException != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"InnerException: {exception.InnerException.Message}");
+                System.Diagnostics.Debug.WriteLine($"InnerException StackTrace: {exception.InnerException.StackTrace}");
+            }
+            
+            System.Diagnostics.Debug.WriteLine("=============================");
+        }
     }
 }

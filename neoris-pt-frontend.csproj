@@ -144,6 +144,7 @@
     <Compile Include="Filters\JwtAuthorizationFilter.cs" />
     <Compile Include="Filters\GlobalExceptionFilter.cs" />
     <Compile Include="Infrastructure\ApiClientService.cs" />
+    <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Services\Interfaces\IAutorService.cs" />
     <Compile Include="Services\Interfaces\ILibroService.cs" />
     <Compile Include="Services\Interfaces\IAuthService.cs" />

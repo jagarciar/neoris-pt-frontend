@@ -1,74 +1,254 @@
 @{
-    ViewBag.Title = "Inicio";
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="hero-section">
-    <h1>📖 ¡Bienvenido a Neoris PT!</h1>
-    <p class="lead">Sistema de gestión de libros y autores</p>
-</div>
-
-@if (Session["Token"] != null)
-{
-    <div class="welcome-message">
-        <p>👋 Hola, <strong>@Session["Username"]</strong></p>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>&#128202; Dashboard de Gesti&oacute;n</h1>
+        <p class="welcome-text">Bienvenido, <strong>@Session["Username"]</strong></p>
     </div>
-}
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h2>📚 Autores</h2>
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <div class="card-icon authors-icon">
+                <span>&#128101;</span>
             </div>
-            <div class="card-body">
-                <p>Administra el catálogo de autores: nombre, fecha de nacimiento, ciudad y contacto.</p>
-                @if (Session["Token"] != null)
-                {
-                    <p>@Html.ActionLink("Ver Autores", "Index", "Autores", null, new { @class = "btn btn-primary" })</p>
-                }
-                else
-                {
-                    <p class="text-muted">Inicia sesión para acceder a esta sección</p>
-                }
+            <div class="card-content">
+                <h2>Gesti&oacute;n de Autores</h2>
+                <p>Administra el cat&aacute;logo de autores: nombre, fecha de nacimiento, ciudad y contacto.</p>
+                <div class="card-actions">
+                    @Html.ActionLink("Ver Autores", "Index", "Autores", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Crear Autor", "Create", "Autores", null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-icon books-icon">
+                <span>&#128218;</span>
+            </div>
+            <div class="card-content">
+                <h2>Gesti&oacute;n de Libros</h2>
+                <p>Gestiona la informaci&oacute;n de libros: t&iacute;tulo, a&ntilde;o, g&eacute;nero, p&aacute;ginas y autor asociado.</p>
+                <div class="card-actions">
+                    @Html.ActionLink("Ver Libros", "Index", "Libros", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Crear Libro", "Create", "Libros", null, new { @class = "btn btn-secondary" })
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h2>📕 Libros</h2>
-            </div>
-            <div class="card-body">
-                <p>Gestiona la información de libros: título, año, autor y descripción.</p>
-                @if (Session["Token"] != null)
-                {
-                    <p>@Html.ActionLink("Ver Libros", "Index", "Libros", null, new { @class = "btn btn-primary" })</p>
-                }
-                else
-                {
-                    <p class="text-muted">Inicia sesión para acceder a esta sección</p>
-                }
-            </div>
-        </div>
-    </div>
+
 </div>
 
-<div class="info-section">
-    <h3>✨ Características</h3>
-    <ul>
-        <li>✓ Frontend ASP.NET MVC (.NET Framework 4.8)</li>
-        <li>✓ Backend ASP.NET Web API (.NET Framework 4.8) con Clean Architecture</li>
-        <li>✓ Gestión completa de libros y autores (CRUD)</li>
-        <li>✓ Autenticación JWT con sesión persistente</li>
-        <li>✓ Interfaz responsive y moderna</li>
-        <li>✓ API RESTful versionada (/api/v1)</li>
-    </ul>
-</div>
+<style>
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-@if (Session["Token"] == null)
-{
-    <div class="cta-section">
-        <h3>🔐 ¿Listo para comenzar?</h3>
-        <p>@Html.ActionLink("Iniciar Sesión", "Login", "Auth", null, new { @class = "btn btn-success btn-lg" })</p>
-    </div>
-}
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .dashboard-header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.5em;
+    }
+
+    .welcome-text {
+        font-size: 1.2em;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        gap: 20px;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .card-icon {
+        font-size: 4em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100px;
+    }
+
+    .authors-icon {
+        color: #667eea;
+    }
+
+    .books-icon {
+        color: #f093fb;
+    }
+
+    .card-content {
+        flex: 1;
+    }
+
+    .card-content h2 {
+        margin: 0 0 15px 0;
+        font-size: 1.8em;
+        color: #333;
+    }
+
+    .card-content p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #5568d3;
+        transform: scale(1.05);
+    }
+
+    .btn-secondary {
+        background: #f093fb;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #d876e3;
+        transform: scale(1.05);
+    }
+
+    .btn-danger {
+        background: #ff6b6b;
+        color: white;
+        font-size: 1.1em;
+        padding: 12px 30px;
+    }
+
+    .btn-danger:hover {
+        background: #ee5a52;
+        transform: scale(1.05);
+    }
+
+    .dashboard-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .info-box {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .info-box h3 {
+        margin: 0 0 20px 0;
+        color: #333;
+        font-size: 1.5em;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+    }
+
+    .info-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .info-box li {
+        padding: 8px 0;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .info-box p {
+        margin: 10px 0;
+        color: #555;
+    }
+
+    .status-active {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .token-display {
+        background: #f4f4f4;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .logout-section {
+        margin-top: 20px;
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    @@media (max-width: 768px) {
+        .dashboard-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .card-icon {
+            min-width: auto;
+        }
+
+        .card-actions {
+            justify-content: center;
+        }
+    }
+</style>

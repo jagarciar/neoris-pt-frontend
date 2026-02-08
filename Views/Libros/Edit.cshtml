@@ -19,8 +19,20 @@
 
     <div class="form-group">
         @Html.LabelFor(model => model.Anio, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.Anio, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1000", max = "9999" } })
+        @Html.EditorFor(model => model.Anio, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1900", max = "2026" } })
         @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Genero, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NumeroPaginas, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.NumeroPaginas, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1" } })
+        @Html.ValidationMessageFor(model => model.NumeroPaginas, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -42,7 +54,6 @@
 }
 
 @section scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     <style>
         .form-horizontal { max-width: 600px; margin: 20px auto; }
         .form-group { margin-bottom: 20px; }
