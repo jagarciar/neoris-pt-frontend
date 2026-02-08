@@ -74,7 +74,7 @@ neoris-pt-frontend/
 └── README.md                       # Esta documentación
 ```
 
-## 🏗️ Arquitectura y Mejores Prácticas
+## 🏗️ Arquitectura
 
 El proyecto sigue una **arquitectura en capas** con separación de responsabilidades y **inyección de dependencias** mediante Unity Container:
 
@@ -482,5 +482,3 @@ catch (Exception ex)
 
 ---
 
-**Puerto por defecto:** 4200  
-**Backend esperado en:** http://localhost:5000
