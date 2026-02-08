@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Neoris Frontend</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Neoris</a>
+            </div>
+            <div class="navbar-menu">
+                <ul class="nav-links">
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    @if (Session["Token"] != null)
+                    {
+                        <li>@Html.ActionLink("Autores", "Index", "Autores")</li>
+                        <li>@Html.ActionLink("Libros", "Index", "Libros")</li>
+                        <li>
+                            <span style="color: #fff; margin-right: 15px;">👤 @Session["Username"]</span>
+                        </li>
+                        <li>@Html.ActionLink("Cerrar Sesión", "Logout", "Auth")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Auth")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container body-content">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">@TempData["Error"]</div>
+        }
+        
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Neoris Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

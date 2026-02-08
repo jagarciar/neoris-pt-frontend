@@ -1,0 +1,57 @@
+@model NeorisFrontend.Models.Libro
+
+@{
+    ViewBag.Title = "Eliminar Libro";
+}
+
+<h2>🗑️ Confirmar Eliminación</h2>
+
+<div class="alert alert-warning">
+    <h3>¿Estás seguro de que deseas eliminar este libro?</h3>
+    <p>Esta acción no se puede deshacer.</p>
+</div>
+
+<div class="detail-container">
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Titulo)</dt>
+        <dd>@Html.DisplayFor(model => model.Titulo)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Anio)</dt>
+        <dd>@Html.DisplayFor(model => model.Anio)</dd>
+
+        <dt>Autor</dt>
+        <dd>@(Model.Autor != null ? Model.Autor.Nombre : "N/A")</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Descripcion)</dt>
+        <dd>@Html.DisplayFor(model => model.Descripcion)</dd>
+    </dl>
+</div>
+
+@using (Html.BeginForm("Delete", "Libros", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+}
+
+@section scripts {
+    <style>
+        .alert { padding: 20px; margin-bottom: 20px; border-radius: 4px; }
+        .alert-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .detail-container { background-color: #f8f9fa; padding: 20px; border-radius: 4px; margin: 20px 0; }
+        .dl-horizontal { margin: 0; }
+        .dl-horizontal dt { font-weight: bold; width: 200px; float: left; clear: left; text-align: right; padding-right: 10px; }
+        .dl-horizontal dd { margin-left: 220px; margin-bottom: 15px; }
+        .form-group { margin-top: 20px; }
+        .btn { padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; border: none; cursor: pointer; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+}

@@ -1,0 +1,55 @@
+@model NeorisFrontend.Models.Libro
+
+@{
+    ViewBag.Title = "Crear Libro";
+}
+
+<h2>✏️ Crear Nuevo Libro</h2>
+
+@using (Html.BeginForm("Create", "Libros", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", placeholder = "Título del libro" } })
+        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Anio, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Anio, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1000", max = "9999" } })
+        @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AutorId, "Autor", htmlAttributes: new { @class = "control-label" })
+        @Html.DropDownList("AutorId", (IEnumerable<SelectListItem>)ViewBag.Autores, "-- Seleccione un autor --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.AutorId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = 4, placeholder = "Descripción del libro" })
+        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Crear Libro</button>
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <style>
+        .form-horizontal { max-width: 600px; margin: 20px auto; }
+        .form-group { margin-bottom: 20px; }
+        .control-label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .text-danger { color: #dc3545; font-size: 14px; margin-top: 5px; display: block; }
+        .btn { padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; border: none; cursor: pointer; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+}

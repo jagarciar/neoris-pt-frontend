@@ -1,0 +1,74 @@
+@{
+    ViewBag.Title = "Inicio";
+}
+
+<div class="hero-section">
+    <h1>📖 ¡Bienvenido a Neoris PT!</h1>
+    <p class="lead">Sistema de gestión de libros y autores</p>
+</div>
+
+@if (Session["Token"] != null)
+{
+    <div class="welcome-message">
+        <p>👋 Hola, <strong>@Session["Username"]</strong></p>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>📚 Autores</h2>
+            </div>
+            <div class="card-body">
+                <p>Administra el catálogo de autores: nombre, fecha de nacimiento, ciudad y contacto.</p>
+                @if (Session["Token"] != null)
+                {
+                    <p>@Html.ActionLink("Ver Autores", "Index", "Autores", null, new { @class = "btn btn-primary" })</p>
+                }
+                else
+                {
+                    <p class="text-muted">Inicia sesión para acceder a esta sección</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2>📕 Libros</h2>
+            </div>
+            <div class="card-body">
+                <p>Gestiona la información de libros: título, año, autor y descripción.</p>
+                @if (Session["Token"] != null)
+                {
+                    <p>@Html.ActionLink("Ver Libros", "Index", "Libros", null, new { @class = "btn btn-primary" })</p>
+                }
+                else
+                {
+                    <p class="text-muted">Inicia sesión para acceder a esta sección</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="info-section">
+    <h3>✨ Características</h3>
+    <ul>
+        <li>✓ Frontend ASP.NET MVC (.NET Framework 4.8)</li>
+        <li>✓ Backend ASP.NET Web API (.NET Framework 4.8) con Clean Architecture</li>
+        <li>✓ Gestión completa de libros y autores (CRUD)</li>
+        <li>✓ Autenticación JWT con sesión persistente</li>
+        <li>✓ Interfaz responsive y moderna</li>
+        <li>✓ API RESTful versionada (/api/v1)</li>
+    </ul>
+</div>
+
+@if (Session["Token"] == null)
+{
+    <div class="cta-section">
+        <h3>🔐 ¿Listo para comenzar?</h3>
+        <p>@Html.ActionLink("Iniciar Sesión", "Login", "Auth", null, new { @class = "btn btn-success btn-lg" })</p>
+    </div>
+}
